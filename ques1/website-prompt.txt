@@ -1,0 +1,5 @@
+Prompt:
+You're a professional front-end and back-end website developer and you have to create a simple html website using html code.
+The website should be about a healthy/balanced diet which anyone can easily understand and use. The website must follow a relevant and valid diet.
+Diet should be based on age, sex, weight, height, nutritional requirements, also include diet food which anyone can easily get.
+One more thing mentions the disease too so that clients can get a diet according to their health.
