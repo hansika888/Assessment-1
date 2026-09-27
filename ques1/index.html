@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BalancedBite - a simple educational healthy diet planner">
+  <title>BalancedBite | Healthy Diet Planner</title>
+
+  <style>
+    :root {
+      --pink: #f7c9d4;
+      --pink-dark: #d97891;
+      --pink-soft: #fff0f4;
+      --yellow: #f8e6a3;
+      --yellow-soft: #fff9dc;
+      --cream: #fffdf7;
+      --brown: #594a43;
+      --green: #6d8b74;
+      --white: #ffffff;
+      --border: #eadbd0;
+      --shadow: 0 8px 24px rgba(89, 74, 67, .10);
+    }
+
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--brown);
+      background: var(--cream);
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--pink-soft), var(--yellow-soft));
+      text-align: center;
+      padding: 55px 20px 45px;
+    }
+
+    .logo {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--pink-dark);
+      letter-spacing: .5px;
+    }
+
+    header p {
+      max-width: 700px;
+      margin: 10px auto 0;
+      color: #756862;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 253, 247, .96);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+      padding: 12px;
+    }
+
+    nav a {
+      color: var(--brown);
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 12px;
+      font-size: .92rem;
+    }
+
+    nav a:hover {
+      color: var(--pink-dark)
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 25px 18px;
+    }
+
+    section {
+      margin-bottom: 38px
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .section-title h2 {
+      color: var(--pink-dark);
+      margin-bottom: 5px;
+    }
+
+    .section-title p {
+      color: #756862;
+      margin-top: 0;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 16px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      font-size: .9rem;
+    }
+
+    input,
+    select {
+      width: 100%;
+      margin-top: 6px;
+      padding: 12px;
+      border: 1px solid #ddcbc1;
+      border-radius: 10px;
+      background: #fffdfb;
+      color: var(--brown);
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 20px;
+      border: none;
+      border-radius: 12px;
+      padding: 13px 22px;
+      background: var(--pink-dark);
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      transform: translateY(-1px)
+    }
+
+    .result {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, var(--pink-soft), var(--yellow-soft));
+      border: 1px solid var(--border);
+    }
+
+    .result h3 {
+      color: var(--pink-dark)
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+    }
+
+    .food-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .food-card h3 {
+      margin-top: 0;
+      color: var(--pink-dark)
+    }
+
+    .emoji {
+      font-size: 2rem;
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--yellow);
+      border-radius: 20px;
+      padding: 4px 9px;
+      margin: 3px 2px;
+      font-size: .78rem;
+      font-weight: bold;
+    }
+
+    .plate {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .plate div {
+      padding: 18px;
+      border-radius: 15px;
+      background: var(--yellow-soft);
+    }
+
+    .plate div:nth-child(2),
+    .plate div:nth-child(3) {
+      background: var(--pink-soft);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+
+    th {
+      background: var(--yellow);
+      color: var(--brown);
+    }
+
+    .condition {
+      border-top: 5px solid var(--pink);
+    }
+
+    .warning {
+      margin-top: 20px;
+      padding: 15px;
+      background: #fff7e4;
+      border-left: 5px solid #e0bd52;
+      border-radius: 10px;
+    }
+
+    footer {
+      background: var(--brown);
+      color: white;
+      text-align: center;
+      padding: 30px 18px;
+    }
+
+    footer small {
+      opacity: .85
+    }
+
+    @media(max-width:600px) {
+      .logo {
+        font-size: 2rem
+      }
+
+      nav a {
+        display: inline-block;
+        margin: 4px 7px
+      }
+
+      .plate {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">🌷 BalancedBite</div>
+    <h1>Simple Nutrition. Better Everyday Choices.</h1>
+    <p>
+      A beginner-friendly healthy diet guide using familiar foods,
+      personal information and practical nutrition principles.
+    </p>
+  </header>
+
+  <nav>
+    <a href="#planner">My Plan</a>
+    <a href="#foods">Foods</a>
+    <a href="#conditions">Health</a>
+    <a href="#plate">Balanced Plate</a>
+    <a href="#tips">Tips</a>
+  </nav>
+
+  <main class="container">
+
+    <section id="planner">
+      <div class="section-title">
+        <h2>🌸 Personal Nutrition Planner</h2>
+        <p>Enter your information for an educational starting point.</p>
+      </div>
+
+      <div class="card">
+
+        <div class="form-grid">
+
+          <div>
+            <label for="age">Age (years)</label>
+            <input id="age" type="number" min="2" max="120" placeholder="Example: 25">
+          </div>
+
+          <div>
+            <label for="sex">Sex</label>
+            <select id="sex">
+              <option value="">Select</option>
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="weight">Weight (kg)</label>
+            <input id="weight" type="number" min="10" max="300" step="0.1" placeholder="Example: 60">
+          </div>
+
+          <div>
+            <label for="height">Height (cm)</label>
+            <input id="height" type="number" min="80" max="250" step="0.1" placeholder="Example: 165">
+          </div>
+
+          <div>
+            <label for="activity">Physical activity</label>
+            <select id="activity">
+              <option value="1.2">Sedentary / little exercise</option>
+              <option value="1.375">Light activity</option>
+              <option value="1.55">Moderate activity</option>
+              <option value="1.725">Very active</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="condition">Health condition</label>
+            <select id="condition">
+              <option value="none">No diagnosed condition</option>
+              <option value="diabetes">Diabetes / Prediabetes</option>
+              <option value="hypertension">High blood pressure</option>
+              <option value="anemia">Iron-deficiency anemia</option>
+              <option value="cholesterol">High cholesterol</option>
+              <option value="kidney">Kidney disease</option>
+              <option value="celiac">Celiac disease</option>
+            </select>
+          </div>
+
+        </div>
+
+        <button onclick="createPlan()">Create My Nutrition Guide</button>
+
+        <div id="result" class="result"></div>
+
+      </div>
+    </section>
+
+
+    <section id="foods">
+      <div class="section-title">
+        <h2>🥗 Easily Available Healthy Foods</h2>
+        <p>Affordable foods that can fit into many balanced Indian meals.</p>
+      </div>
+
+      <div class="grid">
+
+        <div class="food-card">
+          <div class="emoji">🌾</div>
+          <h3>Whole grains</h3>
+          <p>Atta/roti, oats, daliya, brown rice and millets.</p>
+          <span class="tag">Energy</span>
+          <span class="tag">Fibre</span>
+        </div>
+
+        <div class="food-card">
+          <div class="emoji">🥣</div>
+          <h3>Pulses & legumes</h3>
+          <p>Dal, chana, rajma, peas, soybean and sprouts.</p>
+          <span class="tag">Protein</span>
+          <span class="tag">Fibre</span>
+        </div>
+
+        <div class="food-card">
+          <div class="emoji">🥛</div>
+          <h3>Dairy & alternatives</h3>
+          <p>Milk, curd, paneer and suitable fortified alternatives.</p>
+          <span class="tag">Protein</span>
+          <span class="tag">Calcium</span>
+        </div>
+
+        <div class="food-card">
+          <div class="emoji">🥬</div>
+          <h3>Vegetables</h3>
+          <p>Palak, carrot, tomato, cauliflower, beans and seasonal vegetables.</p>
+          <span class="tag">Vitamins</span>
+          <span class="tag">Fibre</span>
+        </div>
+
+        <div class="food-card">
+          <div class="emoji">🍎</div>
+          <h3>Fruits</h3>
+          <p>Guava, orange, papaya, banana, apple and seasonal local fruits.</p>
+          <span class="tag">Fibre</span>
+          <span class="tag">Micronutrients</span>
+        </div>
+
+        <div class="food-card">
+          <div class="emoji">🥜</div>
+          <h3>Nuts & seeds</h3>
+          <p>Peanuts, almonds, sesame and flax/chia seeds in appropriate portions.</p>
+          <span class="tag">Healthy fats</span>
+          <span class="tag">Minerals</span>
+        </div>
+
+      </div>
+    </section>
+
+
+    <section id="plate">
+      <div class="section-title">
+        <h2>🍽️ The Balanced Plate</h2>
+        <p>A simple way to build a nutritious main meal.</p>
+      </div>
+
+      <div class="card">
+        <div class="plate">
+
+          <div>
+            <h3>🥬 Vegetables & salad</h3>
+            <p>Make vegetables a major part of the meal. Use a variety of colours and seasonal choices.</p>
+          </div>
+
+          <div>
+            <h3>🌾 Grains / starch</h3>
+            <p>Choose roti, rice, daliya, oats or another staple according to your needs.</p>
+          </div>
+
+          <div>
+            <h3>🥣 Protein</h3>
+            <p>Include dal, beans, chana, curd, paneer, eggs, fish, meat or soy foods as appropriate.</p>
+          </div>
+
+          <div>
+            <h3>🍊 Fruit & healthy fats</h3>
+            <p>Add fruit across the day and small amounts of nuts, seeds or healthy cooking oils.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <section id="conditions">
+      <div class="section-title">
+        <h2>🩺 Nutrition & Health Conditions</h2>
+        <p>General food principles — not individual medical prescriptions.</p>
+      </div>
+
+      <div class="grid">
+
+        <div class="food-card condition">
+          <h3>Diabetes / Prediabetes</h3>
+          <p>
+            Emphasize vegetables, pulses, whole grains and other high-fibre foods.
+            Limit sugary drinks and frequent refined snack foods. Pair carbohydrate
+            foods with protein or other nutrient-dense foods.
+          </p>
+        </div>
+
+        <div class="food-card condition">
+          <h3>High Blood Pressure</h3>
+          <p>
+            Emphasize vegetables, fruits, whole grains, pulses and appropriate dairy.
+            Reduce excess sodium from salty packaged foods, pickles, papad and
+            heavily salted meals.
+          </p>
+        </div>
+
+        <div class="food-card condition">
+          <h3>Iron-Deficiency Anemia</h3>
+          <p>
+            Include iron-rich foods such as pulses, legumes, leafy greens and
+            suitable animal foods. Vitamin-C-rich foods can help improve absorption
+            of non-heme iron from plant foods.
+          </p>
+        </div>
+
+        <div class="food-card condition">
+          <h3>High Cholesterol</h3>
+          <p>
+            Increase fibre-rich foods such as oats, barley, pulses, vegetables and
+            fruits. Prefer unsaturated fats and limit trans fats and excess
+            saturated fat.
+          </p>
+        </div>
+
+        <div class="food-card condition">
+          <h3>Kidney Disease</h3>
+          <p>
+            Kidney diets are highly individualized. Protein, sodium, potassium,
+            phosphorus and fluid may need adjustment according to kidney function
+            and medical advice.
+          </p>
+        </div>
+
+        <div class="food-card condition">
+          <h3>Celiac Disease</h3>
+          <p>
+            Gluten must be avoided strictly. Naturally gluten-free foods include
+            rice, maize, potatoes, pulses, fruits, vegetables and plain dairy.
+            Cross-contact with gluten-containing foods must also be considered.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="warning">
+        <strong>⚠️ Important:</strong>
+        This website is for nutrition education. A person with a diagnosed disease,
+        pregnancy, severe anemia, kidney disease, diabetes requiring medication,
+        an eating disorder or another medical condition should receive an
+        individualized plan from a qualified doctor and/or registered dietitian.
+      </div>
+    </section>
+
+
+    <section>
+      <div class="section-title">
+        <h2>📋 Simple Meal Ideas</h2>
+      </div>
+
+      <div class="card">
+
+        <table>
+          <tr>
+            <th>Meal</th>
+            <th>Simple balanced examples</th>
+          </tr>
+
+          <tr>
+            <td>Breakfast</td>
+            <td>Besan chilla + curd + fruit OR oats with milk + nuts + fruit</td>
+          </tr>
+
+          <tr>
+            <td>Lunch</td>
+            <td>Roti/rice + dal/rajma/chana + seasonal sabzi + curd</td>
+          </tr>
+
+          <tr>
+            <td>Snack</td>
+            <td>Fruit + roasted chana/peanuts OR curd + fruit</td>
+          </tr>
+
+          <tr>
+            <td>Dinner</td>
+            <td>Roti + dal/paneer/soy/egg + vegetables + salad</td>
+          </tr>
+
+        </table>
+
+      </div>
+    </section>
+
+
+    <section id="tips">
+      <div class="section-title">
+        <h2>🌼 Healthy Habits</h2>
+      </div>
+
+      <div class="grid">
+
+        <div class="food-card">
+          <h3>💧 Hydration</h3>
+          <p>Drink water regularly and pay attention to thirst, weather and activity.</p>
+        </div>
+
+        <div class="food-card">
+          <h3>🌈 Variety</h3>
+          <p>Rotate different vegetables, fruits, grains and protein foods across the week.</p>
+        </div>
+
+        <div class="food-card">
+          <h3>🥫 Less ultra-processed food</h3>
+          <p>Keep packaged snacks, sugary drinks and heavily processed foods occasional rather than the foundation of
+            meals.</p>
+        </div>
+
+        <div class="food-card">
+          <h3>⚖️ Balance</h3>
+          <p>A healthy diet is about the overall pattern, not one “perfect” food.</p>
+        </div>
+
+      </div>
+    </section>
+
+
+    <section>
+      <div class="card">
+        <h2>How the calculator works</h2>
+
+        <p>
+          For adults, estimated resting energy expenditure is calculated using
+          the <strong>Mifflin–St Jeor equation</strong> and then adjusted using
+          an activity factor.
+        </p>
+
+        <p>
+          BMI is calculated from weight and height as a screening measure.
+          It is not a diagnosis and should not be interpreted using adult
+          cut-offs for children and teenagers.
+        </p>
+
+        <p>
+          People under 18 need age- and sex-specific growth assessment rather
+          than an adult calorie prescription.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+
+  <footer>
+    <h3>🌷 BalancedBite</h3>
+    <p>Eat well. Understand nutrition. Build healthy habits.</p>
+    <small>
+      Educational website only • Not a substitute for individualized medical or dietetic care.
+    </small>
+  </footer>
+
+
+  <script>
+
+    function createPlan() {
+
+      const age = Number(document.getElementById("age").value);
+      const sex = document.getElementById("sex").value;
+      const weight = Number(document.getElementById("weight").value);
+      const height = Number(document.getElementById("height").value);
+      const activity = Number(document.getElementById("activity").value);
+      const condition = document.getElementById("condition").value;
+
+      const result = document.getElementById("result");
+
+      if (!age || !sex || !weight || !height) {
+
+        result.style.display = "block";
+
+        result.innerHTML =
+          "<strong>Please enter your age, sex, weight and height.</strong>";
+
+        return;
+      }
+
+      const heightM = height / 100;
+      const bmi = weight / (heightM * heightM);
+
+      let html =
+        "<h3>🌷 Your Nutrition Summary</h3>" +
+        "<p><strong>BMI:</strong> " + bmi.toFixed(1) +
+        " <small>(screening measure only)</small></p>";
+
+      if (age >= 18) {
+
+        let bmr;
+
+        if (sex === "male") {
+          bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+        } else {
+          bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+        }
+
+        const estimatedCalories = Math.round(bmr * activity);
+
+        html +=
+          "<p><strong>Estimated daily energy requirement:</strong> approximately " +
+          estimatedCalories +
+          " kcal/day.</p>" +
+          "<p><small>This is an estimate, not a prescribed calorie target. Actual needs vary with body composition, activity, health and other factors.</small></p>";
+
+      } else {
+
+        html +=
+          "<p><strong>Energy requirement:</strong> Because you are under 18, this website does not provide an adult calorie prescription. Nutrition during adolescence should support growth and development and should be assessed using age- and sex-specific references.</p>";
+      }
+
+      const advice = {
+
+        none:
+          "Build meals around vegetables/fruit, a staple carbohydrate such as roti or rice, a protein source such as dal/beans/curd/paneer/eggs/soy, and appropriate healthy fats.",
+
+        diabetes:
+          "Focus on high-fibre foods, vegetables, pulses and balanced portions. Limit sugary drinks and frequent refined snack foods. Do not change diabetes medication based on this website.",
+
+        hypertension:
+          "Emphasize vegetables, fruits, whole grains, pulses and appropriate dairy. Reduce excess sodium from packaged foods, salty snacks, pickles and papad.",
+
+        anemia:
+          "Include iron-rich foods regularly and pair plant sources of iron with vitamin-C-rich foods. Confirm and treat the cause of persistent anemia with a healthcare professional.",
+
+        cholesterol:
+          "Increase fibre-rich foods such as oats, barley, pulses, fruits and vegetables. Prefer unsaturated fats and limit trans fats and excess saturated fat.",
+
+        kidney:
+          "Kidney disease requires individualized nutrition care. Protein, sodium, potassium, phosphorus and fluid may need specific adjustment.",
+
+        celiac:
+          "Gluten needs to be avoided strictly. Choose naturally gluten-free foods and prevent cross-contact during cooking and storage."
+      };
+
+      html +=
+        "<p><strong>Condition guidance:</strong> " +
+        advice[condition] +
+        "</p>";
+
+      result.style.display = "block";
+      result.innerHTML = html;
+    }
+
+  </script>
+
+</body>
+
+</html>
